@@ -1,4 +1,4 @@
-# Houdini Config
+# Omoospace for Houdini
 
 This is the houdini editon of omoospace.
 

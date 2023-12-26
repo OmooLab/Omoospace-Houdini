@@ -30,7 +30,7 @@ def set_env():
             )
         omoos_path = default_omoos.root_path.as_posix()
 
-        route_str = "Untitled"
+        route_str = "Void_Untitled"
 
         print("No omoospace detected, so...")
         print(f"set default omoospace path $JOB: {omoos_path}")

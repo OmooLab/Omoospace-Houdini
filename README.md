@@ -43,7 +43,6 @@ $ pip install -r requirements.txt
 Create a env file in packages `houdiniX.Y/packages/env.json`
 
 ```json
-// env.json
 {
   "package_path": [
     "Path/to/Omoospace-Houdini/Packages"

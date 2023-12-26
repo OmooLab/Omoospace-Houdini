@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mainMenu>
+  <menuBar>
+    <subMenu id="omoospace">
+      <label>Omoospace</label>
+
+      <titleItem><label>Omoospace Path:</label></titleItem>
+      <scriptItem>
+        <labelExpression>hou.getenv('JOB')</labelExpression>
+        <scriptCode><![CDATA[
+import hou
+from omoospace import reveal_in_explorer
+reveal_in_explorer(hou.getenv('JOB'))
+]]>
+        </scriptCode>
+      </scriptItem>
+
+      <titleItem><label>Subspace Route:</label></titleItem>
+      <scriptItem>
+        <labelExpression>hou.getenv('ROUTE')</labelExpression>
+        <scriptCode><![CDATA[
+import hou
+import pyperclip
+pyperclip.copy(hou.getenv('ROUTE'))
+print(f"Copy to Clipboard: {hou.getenv('ROUTE')}")
+]]>
+        </scriptCode>
+      </scriptItem>
+
+      <separatorItem/>
+
+      <scriptItem>
+        <label>Init File</label>
+        <scriptCode><![CDATA[
+from omoospace_houdini import init_hip
+init_hip()
+]]>
+        </scriptCode>
+      </scriptItem>
+
+    </subMenu>
+  </menuBar>
+</mainMenu>

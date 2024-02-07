@@ -4,36 +4,46 @@
     <subMenu id="omoospace">
       <label>Omoospace</label>
 
-      <titleItem><label>Omoospace Path:</label></titleItem>
+      <titleItem><label>Current Path Mode:</label></titleItem>
+      <scriptItem>
+        <labelExpression>
+<![CDATA[
+from omoospace_houdini import OmoospaceConfig
+path_mode = OmoospaceConfig().path_mode
+return f"{path_mode.upper()} (Press to Change)"
+]]>
+        </labelExpression>
+        <scriptCode>
+<![CDATA[
+import hou
+from omoospace_houdini import OmoospaceConfig
+OmoospaceConfig().switch_path_mode()
+hou.hipFile.save()
+]]>
+        </scriptCode>
+      </scriptItem>
+      <separatorItem></separatorItem>
+
+      <titleItem><label>Omoospace Root ($JOB):</label></titleItem>
       <scriptItem>
         <labelExpression>hou.getenv('JOB')</labelExpression>
-        <scriptCode><![CDATA[
-import hou
+        <scriptCode>
+<![CDATA[
 from omoospace import reveal_in_explorer
 reveal_in_explorer(hou.getenv('JOB'))
 ]]>
         </scriptCode>
       </scriptItem>
+      <separatorItem></separatorItem>
 
-      <titleItem><label>Subspace Route:</label></titleItem>
+      <titleItem><label>Subspace Route ($ROUTE):</label></titleItem>
       <scriptItem>
         <labelExpression>hou.getenv('ROUTE')</labelExpression>
-        <scriptCode><![CDATA[
-import hou
+        <scriptCode>
+<![CDATA[
 import pyperclip
 pyperclip.copy(hou.getenv('ROUTE'))
 print(f"Copy to Clipboard: {hou.getenv('ROUTE')}")
-]]>
-        </scriptCode>
-      </scriptItem>
-
-      <separatorItem/>
-
-      <scriptItem>
-        <label>Init File</label>
-        <scriptCode><![CDATA[
-from omoospace_houdini import init_hip
-init_hip()
 ]]>
         </scriptCode>
       </scriptItem>

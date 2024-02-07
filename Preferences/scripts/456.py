@@ -1,3 +1,3 @@
-from omoospace_houdini import init_hip
+from omoospace_houdini import on_hip_open
 
-init_hip()
+on_hip_open()

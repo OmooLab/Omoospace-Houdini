@@ -84,22 +84,26 @@ def load_env(path_mode: str):
         omoos_path_str = omoos_path.as_posix()
         route_str = get_route_str(file_path)
     except:
-        try:
-            default_omoos = Omoospace(Path(Path.home(), "Void"))
-        except:
-            default_omoos = create_omoospace(
-                name="Void",
-                root_dir=Path.home(),
-                description="Default omoospace inited by houdini as default project.",
-                reveal_in_explorer=False
-            )
-        omoos_path_str = default_omoos.root_path.as_posix()
+        omoos_path_str = get_voidspace().root_path.as_posix()
         route_str = "Void_Untitled"
 
     backup_dir_str = Path(omoos_path_str, "StagedData/Backup").as_posix()
 
     return omoos_path_str, route_str, backup_dir_str
 
+
+def get_voidspace():
+    try:
+        voidspace = Omoospace(Path(Path.home(), "Void"))
+    except:
+        voidspace = create_omoospace(
+            name="Void",
+            root_dir=Path.home(),
+            description="Default omoospace inited by houdini as default project.",
+            reveal_in_explorer=False
+        )
+    return voidspace
+    
 
 def set_env(path_mode):
     omoos_path_str, route_str, backup_dir_str = load_env(path_mode)
@@ -128,8 +132,13 @@ def import_hda(project_path):
 
 
 def on_hip_open():
-    omoos_path_str, route_str, backup_dir_str = set_env(
+    if hou.getenv('ROUTE') is None:
+        omoos_path_str, route_str, backup_dir_str = set_env(
         OmoospaceConfig().path_mode)
+    else:
+        omoos_path_str = hou.getenv('JOB')
+        route_str = hou.getenv('ROUTE')
+    
     print(f"Current omoospace path $JOB: {omoos_path_str}")
     print(f"Current subspace route $ROUTE: {route_str}")
     
@@ -142,4 +151,5 @@ def on_hip_open():
 def on_hip_save():
     omoos_path_str, route_str, backup_dir_str = set_env(
         OmoospaceConfig().path_mode)
+    
     import_hda(omoos_path_str)

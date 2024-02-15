@@ -47,6 +47,17 @@ print(f"Copy to Clipboard: {hou.getenv('ROUTE')}")
 ]]>
         </scriptCode>
       </scriptItem>
+       <separatorItem></separatorItem>
+
+      <scriptItem>
+        <label>Update Subspace Route</label>
+        <scriptCode>
+<![CDATA[
+from omoospace_houdini import on_hip_save
+on_hip_save()
+]]>
+        </scriptCode>
+      </scriptItem>
 
     </subMenu>
   </menuBar>

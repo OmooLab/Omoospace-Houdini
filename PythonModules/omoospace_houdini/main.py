@@ -149,8 +149,13 @@ def import_hda(project_path):
 
 def on_hip_open():
     if hou.getenv('ROUTE') is None:
-        omoos_path_str, route_str, backup_dir_str = set_env(
-            OmoospaceConfig().path_mode)
+        omoos_path_str, route_str, backup_dir_str = load_env(
+            OmoospaceConfig().path_mode
+        )
+        
+        hou.putenv("JOB", omoos_path_str)
+        hou.putenv("ROUTE", route_str)
+        hou.putenv("HOUDINI_BACKUP_DIR", backup_dir_str)
     else:
         omoos_path_str = hou.getenv('JOB')
         route_str = hou.getenv('ROUTE')
@@ -173,10 +178,10 @@ def on_hip_save():
     import_hda(omoos_path_str)
 
 
-class SnippetA(QDialog):
+class SaveToNewOmoospace(QDialog):
     # self.ui only Main Window
     def __init__(self, parent=None):
-        super(SnippetA, self).__init__(parent)
+        super(SaveToNewOmoospace, self).__init__(parent)
 
         self.omoospace_home_input = hou.qt.InputField(
             data_type=hou.qt.InputField.StringType,
@@ -295,6 +300,6 @@ class SnippetA(QDialog):
 
 
 def save_to_new_omoospace():
-    dialog = SnippetA()
+    dialog = SaveToNewOmoospace()
     dialog.setParent(hou.qt.mainWindow(), QtCore.Qt.Window)
     dialog.show()

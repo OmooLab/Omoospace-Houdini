@@ -4,7 +4,28 @@
     <subMenu id="omoospace">
       <label>Omoospace</label>
 
-      <titleItem><label>Current Path Mode:</label></titleItem>
+      <scriptItem>
+        <label>Save to New Omoospace</label>
+        <scriptCode>
+<![CDATA[
+from omoospace_houdini import save_to_new_omoospace
+save_to_new_omoospace()
+]]>
+        </scriptCode>
+      </scriptItem>
+      <separatorItem></separatorItem>
+
+      <titleItem><label>Omoospace Root ($JOB):</label></titleItem>
+      <scriptItem>
+        <labelExpression>hou.getenv('JOB')</labelExpression>
+        <scriptCode>
+<![CDATA[
+from omoospace import reveal_in_explorer
+reveal_in_explorer(hou.getenv('JOB'))
+]]>
+        </scriptCode>
+      </scriptItem>
+
       <scriptItem>
         <labelExpression>
 <![CDATA[
@@ -22,18 +43,7 @@ hou.hipFile.save()
 ]]>
         </scriptCode>
       </scriptItem>
-      <separatorItem></separatorItem>
-
-      <titleItem><label>Omoospace Root ($JOB):</label></titleItem>
-      <scriptItem>
-        <labelExpression>hou.getenv('JOB')</labelExpression>
-        <scriptCode>
-<![CDATA[
-from omoospace import reveal_in_explorer
-reveal_in_explorer(hou.getenv('JOB'))
-]]>
-        </scriptCode>
-      </scriptItem>
+      
       <separatorItem></separatorItem>
 
       <titleItem><label>Subspace Route ($ROUTE):</label></titleItem>
@@ -41,8 +51,8 @@ reveal_in_explorer(hou.getenv('JOB'))
         <labelExpression>hou.getenv('ROUTE')</labelExpression>
         <scriptCode>
 <![CDATA[
-import pyperclip
-pyperclip.copy(hou.getenv('ROUTE'))
+from omoospace import copy_to_clipboard
+copy_to_clipboard(hou.getenv('ROUTE'))
 print(f"Copy to Clipboard: {hou.getenv('ROUTE')}")
 ]]>
         </scriptCode>

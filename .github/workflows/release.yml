@@ -1,0 +1,55 @@
+name: Create Release
+
+on:
+  push:
+    branches:
+      - 'release/*'
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Version Env
+        run: |
+          ref_name=${{ github.ref_name }}
+          echo "version=${ref_name#release/}" >> "$GITHUB_ENV"
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.10'
+      - name: Install Dependencies
+        run: |
+          python -m venv PythonLib3.10
+          source PythonLib3.10/bin/activate
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip list
+          mv PythonLib3.10/lib/python3.10/site-packages PythonLib3.10/lib/
+          rm -r PythonLib3.10/lib/python3.10
+      - name: Zip Package
+        run: |
+          zip -r package.zip Packages Preferences PythonLib3.10 PythonModules
+      - name: Create Release ${{ env.version }}
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ env.version }}
+          release_name: Release ${{ env.version }}
+          body: 
+          draft: false
+          prerelease: true
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./package.zip
+          asset_name: Omoospace-Houdini_${{ env.version }}.zip
+          asset_content_type: application/zip

@@ -165,3 +165,5 @@ HDAs/backup
 PythonLib*
 
 *.rat
+
+.secrets

@@ -6,13 +6,10 @@ on:
       - "release/*"
 
 jobs:
-  # update_release:
-  #   name: Create Release
+  # draft_release:
+  #   name: Draft Release
   #   runs-on: ubuntu-latest
-  #   env:
-  #     version:
   #   outputs:
-  #     upload_id: ${{ steps.draft_release.outputs.id }}
   #     upload_url: ${{ steps.draft_release.outputs.upload_url }}
   #     version: ${{ steps.set_env.outputs.version }}
   #   steps:
@@ -20,41 +17,44 @@ jobs:
   #       id: set_env
   #       run: |
   #         ref_name=${{ github.ref_name }}
-  #         echo "version=${ref_name#release/}" >> "$GITHUB_ENV"
   #         echo "version=${ref_name#release/}" >> "$GITHUB_OUTPUT"
-  #     - name: Draft Release ${{ env.version }}
+  #     - name: Draft Release ${{ steps.set_env.outputs.version }}
   #       id: draft_release
   #       uses: actions/create-release@v1
   #       env:
   #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
   #       with:
-  #         tag_name: ${{ env.version }}
-  #         release_name: Release ${{ env.version }}
+  #         tag_name: ${{ steps.set_env.outputs.version }}
+  #         release_name: Release ${{ steps.set_env.outputs.version }}
   #         draft: true
 
-  create_release:
+  draft_release:
+    name: Draft Release
     permissions:
       contents: write
       pull-requests: write
     runs-on: ubuntu-latest
     outputs:
-      upload_url: ${{ steps.release_drafter.outputs.upload_url }}
+      upload_url: ${{ steps.draft_release.outputs.upload_url }}
       version: ${{ steps.set_env.outputs.version }}
     steps:
       - name: Set Version Env
         id: set_env
         run: |
           ref_name=${{ github.ref_name }}
-          echo "version=${ref_name#release/}" >> "$GITHUB_ENV"  
           echo "version=${ref_name#release/}" >> "$GITHUB_OUTPUT"
-      - uses: release-drafter/release-drafter@v5
-        id: release_drafter
+      - name: Draft Release ${{ steps.set_env.outputs.version }}
+        uses: release-drafter/release-drafter@v5
+        id: draft_release
+        with:
+          name: ${{ steps.set_env.outputs.version }}
+          tag: ${{ steps.set_env.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build_assets:
     name: Build Assets
-    needs: create_release
+    needs: draft_release
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -87,7 +87,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          upload_url: ${{ needs.draft_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           asset_path: ./package.zip
-          asset_name: Omoospace-Houdini_${{ needs.create_release.outputs.version }}_py${{ matrix.python-version }}.zip
+          asset_name: Omoospace-Houdini_${{ needs.draft_release.outputs.version }}_py${{ matrix.python-version }}.zip
           asset_content_type: application/zip

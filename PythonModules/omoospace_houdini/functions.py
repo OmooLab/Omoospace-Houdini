@@ -25,7 +25,7 @@ from hutil.Qt.QtWidgets import (
 
 import hutil.Qt.QtCore as QtCore
 
-NODE_CONFIG_PATH = Path(__file__).parent.parent.parent / "Nodes.json"
+NODE_CONFIG_PATH = Path(__file__).parent.parent.parent / "nodes.json"
 
 with NODE_CONFIG_PATH.open('r') as f:
     data = json.load(f)

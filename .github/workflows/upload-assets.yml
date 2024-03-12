@@ -80,7 +80,7 @@ jobs:
           rm -r venv
       - name: Zip Package
         run: |
-          zip -r package.zip Packages Preferences PythonLib${{ matrix.python-version }} PythonModules
+          zip -r package.zip Packages Preferences PythonLib${{ matrix.python-version }} PythonModules nodes.json
       - name: Upload Release Asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1

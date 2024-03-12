@@ -1,0 +1,100 @@
+{
+  "copy_parent_markers": ["*", "$F", "<UDIM>", ".usd", ".fbx", ".gltf", ".obj"],
+  "import_parms": {
+    "file": ["file"],
+    "filemerge::2.0": ["filelist*", "file"],
+    "filemerge": ["file"],
+    "lidarimport": ["filename"],
+    "rawimport": ["file"],
+    "tableimport": ["file"],
+    "usdimport": ["filepath1"],
+    "sublayer": ["filepath*"],
+    "reference::2.0": ["filepath*"],
+    "reference": ["filepath1"],
+    "assetreference": ["filepath"],
+    "kinefx::mocapimport": ["asffile"],
+    "kinefx::fbxanimimport": ["fbxfile"],
+    "kinefx::fbxcharacterimport": ["fbxfile", "animfbxfile"],
+    "kinefx::fbxskinimport": ["fbxfile"],
+    "lab::obj_importer": ["sObjFile"],
+    "lab::osm_import": ["osm_file"],
+    "lab::fbx_archive_import": ["sFBXFile"],
+    "lab::terrain_layer_import::1.1": ["sHeightmap"],
+    "lab::terrain_layer_import": ["sHeightmap"],
+    "MaNan::OmooImport::1.0": ["file_path"],
+    "MaNan::OmooReference::1.0": ["file_path"]
+  },
+  "export_parms": {
+    "filecache::2.0": {
+      "basename": "`$ROUTE`_`$OS`",
+      "basedir": "$JOB/StagedData/FileCache"
+    },
+    "filecache": {
+      "file": "$JOB/StagedData/FileCache/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`.$F4.bgeo.sc"
+    },
+    "rop_alembic": {
+      "filename": "$JOB/Contents/Dynamics/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`.abc"
+    },
+    "rop_gltf": {
+      "file": "$JOB/Contents/Models/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`.glb"
+    },
+    "rop_fbx": {
+      "sopoutput": "$JOB/Contents/Models/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`.fbx"
+    },
+    "rop_geometry": {
+      "sopoutput": "$JOB/Contents/Dynamics/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`.$F4.bgeo.sc"
+    },
+    "rop_geometryraw": {
+      "sopoutput": "$JOB/Contents/Dynamics/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`.$F4.raw"
+    },
+    "vellumio::2.0": {
+      "basename": "`$ROUTE`_`$OS`",
+      "basedir": "$JOB/StagedData/VellumIO"
+    },
+    "usdexport": {
+      "lopoutput": "$JOB/Contents/Models/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`.usd"
+    },
+    "dembones_skinningconverter::1.0": {
+      "sOutputFile": "$JOB/Contents/Models/`$ROUTE`_`$OS`_Converted/`$ROUTE`_`$OS`_Converted.fbx"
+    },
+    "kinefx::rop_gltfcharacteroutput": {
+      "filepath": "$JOB/Contents/Models/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`.glb"
+    },
+    "kinefx::rop_fbxcharacteroutput": {
+      "outputfilepath": "$JOB/Contents/Models/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`.fbx"
+    },
+    "labs::filecache::2.0": {
+      "basename": "`$ROUTE`_`$OS`",
+      "basedir": "$JOB/StagedData/FileCache"
+    },
+    "labs::filecache::1.0": {
+      "basename": "`$ROUTE`_`$OS`",
+      "basedir": "$JOB/StagedData/FileCache"
+    },
+    "labs::niagara::2.0": {
+      "outputpath": "$JOB/Contents/Dynamics/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`.hbjson"
+    },
+    "labs::niagara": {
+      "csvpath": "$JOB/Contents/Dynamics/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`.csv"
+    },
+    "labs::dembones_skinningconverter": {
+      "sExportFile": "$JOB/Contents/Models/`$ROUTE`_`$OS`_Converted/`$ROUTE`_`$OS`_Converted.fbx"
+    },
+    "MaNan::OmooExport::1.1": {
+      "name": "`$ROUTE`_`$OS`",
+      "export_dir": "$JOB/Contents/Models",
+      "cache_dir": "$JOB/StagedData/OmooExport"
+    },
+    "MaNan::SubstanceBridge::1.1": {
+      "name": "`$ROUTE`_`$OS`",
+      "bridge_dir": "$JOB/StagedData/SubstanceBridge",
+      "backup_dir": "$JOB/Contents/Models/SubstanceBridge",
+      "cache_dir": "$JOB/StagedData/SubstanceBridge"
+    },
+    "MaNan::ZbrushBridge::1.5": {
+      "name": "`$ROUTE`_`$OS`",
+      "bridge_dir": "$JOB/StagedData/ZbrushBridge",
+      "backup_dir": "$JOB/Contents/Models/ZbrushBridge"
+    }
+  }
+}

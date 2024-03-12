@@ -166,4 +166,6 @@ PythonLib*
 
 *.rat
 
+# act (Github Action Locally)
+.actrc
 .secrets

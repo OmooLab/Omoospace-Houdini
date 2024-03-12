@@ -2,12 +2,13 @@
 <mainMenu>
   <menuBar>
     <subMenu id="omoospace">
+      <insertBefore />
       <label>Omoospace</label>
 
-      <scriptItem>
+      <scriptItem id="omoospace_save_to_new_omoospace">
         <label>Save to New Omoospace</label>
         <scriptCode>
-<![CDATA[
+          <![CDATA[
 from omoospace_houdini import save_to_new_omoospace
 save_to_new_omoospace()
 ]]>
@@ -15,27 +16,29 @@ save_to_new_omoospace()
       </scriptItem>
       <separatorItem></separatorItem>
 
-      <titleItem><label>Omoospace Root ($JOB):</label></titleItem>
+      <titleItem>
+        <label>Omoospace Root ($JOB):</label>
+      </titleItem>
       <scriptItem>
         <labelExpression>hou.getenv('JOB')</labelExpression>
         <scriptCode>
-<![CDATA[
-from omoospace import reveal_in_explorer
-reveal_in_explorer(hou.getenv('JOB'))
+          <![CDATA[
+import os
+os.startfile(hou.getenv('JOB'))
 ]]>
         </scriptCode>
       </scriptItem>
 
       <scriptItem>
         <labelExpression>
-<![CDATA[
+          <![CDATA[
 from omoospace_houdini import OmoospaceConfig
 path_mode = OmoospaceConfig().path_mode
 return f"{path_mode.upper()} (Press to Change)"
 ]]>
         </labelExpression>
         <scriptCode>
-<![CDATA[
+          <![CDATA[
 import hou
 from omoospace_houdini import OmoospaceConfig
 OmoospaceConfig().switch_path_mode()
@@ -43,26 +46,28 @@ hou.hipFile.save()
 ]]>
         </scriptCode>
       </scriptItem>
-      
+
       <separatorItem></separatorItem>
 
-      <titleItem><label>Subspace Route ($ROUTE):</label></titleItem>
+      <titleItem>
+        <label>Subspace Route ($ROUTE):</label>
+      </titleItem>
       <scriptItem>
         <labelExpression>hou.getenv('ROUTE')</labelExpression>
         <scriptCode>
-<![CDATA[
+          <![CDATA[
 from omoospace import copy_to_clipboard
 copy_to_clipboard(hou.getenv('ROUTE'))
 print(f"Copy to Clipboard: {hou.getenv('ROUTE')}")
 ]]>
         </scriptCode>
       </scriptItem>
-       <separatorItem></separatorItem>
+      <separatorItem></separatorItem>
 
       <scriptItem>
         <label>Update Subspace Route</label>
         <scriptCode>
-<![CDATA[
+          <![CDATA[
 from omoospace_houdini import on_hip_save
 on_hip_save()
 ]]>

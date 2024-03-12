@@ -1,10 +1,34 @@
 # Omoospace for Houdini
 
-This is the houdini editon of omoospace.
+This is the houdini add-on of omoospace.
+
+[中文文档](https://uj6xfhbzp0.feishu.cn/wiki/IFcwwNWfci6TpwkW6mUcvcJmnVf?from=from_copylink)
 
 ## Getting Started
 
+### Installation
 
+Download the latest release version of Omoospace-Houdini (choose your houdini python version).
+[https://github.com/OmooLab/Omoospace-Houdini/releases](https://github.com/OmooLab/Omoospace-Houdini/releases)
+
+Unzip all files to any directory.  
+e.g. `path/to/Omoospace-Houdini`
+
+Reference it's package path to houdini package json file `houdiniX.Y/packages/env.json`.
+
+```json
+// env.json
+{
+  ...
+  "package_path": [
+    ...
+    "path/to/Omoospace-Houdini/Packages"
+    ]
+  ...
+}
+```
+
+### Usage
 
 ## For Contributors
 
@@ -40,16 +64,4 @@ Install dependencies.
 
 ```bash
 $ pip install -r requirements.txt
-```
-
-### Add it to houdini
-
-Create a env file in packages `houdiniX.Y/packages/env.json`
-
-```json
-{
-  "package_path": [
-    "Path/to/Omoospace-Houdini/Packages"
-    ]
-}
 ```

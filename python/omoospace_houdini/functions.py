@@ -31,7 +31,7 @@ with NODE_CONFIG_PATH.open('r') as f:
     data = json.load(f)
     EXPORT_PARMS = data['export_parms']
     IMPORT_PARMS = data['import_parms']
-    COPY_PARENT_MARKERS = data['import_parms']
+    COPY_PARENT_MARKERS = data['copy_parent_markers']
 
 
 def organize_export_paths(nodes):

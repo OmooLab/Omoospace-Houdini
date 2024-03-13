@@ -16,11 +16,8 @@ save_to_new_omoospace()
       </scriptItem>
       <separatorItem></separatorItem>
 
-      <titleItem>
-        <label>Omoospace Root ($JOB):</label>
-      </titleItem>
       <scriptItem>
-        <labelExpression>hou.getenv('JOB')</labelExpression>
+        <labelExpression>f"$JOB ({hou.getenv('PATH_FORMAT') or 'UNC'}): {hou.getenv('JOB')}"</labelExpression>
         <scriptCode>
           <![CDATA[
 import os
@@ -30,30 +27,7 @@ os.startfile(hou.getenv('JOB'))
       </scriptItem>
 
       <scriptItem>
-        <labelExpression>
-          <![CDATA[
-from omoospace_houdini import OmoospaceConfig
-path_mode = OmoospaceConfig().path_mode
-return f"{path_mode.upper()} (Press to Change)"
-]]>
-        </labelExpression>
-        <scriptCode>
-          <![CDATA[
-import hou
-from omoospace_houdini import OmoospaceConfig
-OmoospaceConfig().switch_path_mode()
-hou.hipFile.save()
-]]>
-        </scriptCode>
-      </scriptItem>
-
-      <separatorItem></separatorItem>
-
-      <titleItem>
-        <label>Subspace Route ($ROUTE):</label>
-      </titleItem>
-      <scriptItem>
-        <labelExpression>hou.getenv('ROUTE')</labelExpression>
+        <labelExpression>f"$ROUTE: {hou.getenv('ROUTE')}"</labelExpression>
         <scriptCode>
           <![CDATA[
 from omoospace import copy_to_clipboard
@@ -62,10 +36,9 @@ print(f"Copy to Clipboard: {hou.getenv('ROUTE')}")
 ]]>
         </scriptCode>
       </scriptItem>
-      <separatorItem></separatorItem>
 
       <scriptItem>
-        <label>Update Subspace Route</label>
+        <label>Update Envs</label>
         <scriptCode>
           <![CDATA[
 from omoospace_houdini import on_hip_save
@@ -73,6 +46,18 @@ on_hip_save()
 ]]>
         </scriptCode>
       </scriptItem>
+
+      <scriptItem>
+        <label>Change Path format</label>
+        <scriptCode>
+          <![CDATA[
+from omoospace_houdini import on_hip_save
+path_format = "UNC" if hou.getenv('PATH_FORMAT') == "MNT" else "MNT"
+on_hip_save(path_format)
+]]>
+        </scriptCode>
+      </scriptItem>
+
 
     </subMenu>
   </menuBar>

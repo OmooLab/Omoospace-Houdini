@@ -48,7 +48,7 @@ on_hip_save()
       </scriptItem>
 
       <scriptItem>
-        <label>Change Path format</label>
+        <label>Change Path Format</label>
         <scriptCode>
           <![CDATA[
 from omoospace_houdini import on_hip_save

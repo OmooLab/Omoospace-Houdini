@@ -6,18 +6,6 @@
       <insertBefore />
     </separatorItem>
 
-    <scriptItem id="omoospace_organize_import_paths">
-      <insertBefore />
-      <label>Organize Import Paths</label>
-      <scriptCode>
-        <![CDATA[
-from omoospace_houdini import organize_import_paths
-items = kwargs.get("items", None)
-organize_import_paths(items)
-]]>
-      </scriptCode>
-    </scriptItem>
-
     <scriptItem id="omoospace_organize_export_paths">
       <insertBefore />
       <label>Organize Export Paths</label>
@@ -26,6 +14,18 @@ organize_import_paths(items)
 from omoospace_houdini import organize_export_paths
 items = kwargs.get("items", None)
 organize_export_paths(items)
+]]>
+      </scriptCode>
+    </scriptItem>
+
+    <scriptItem id="omoospace_organize_import_paths">
+      <insertBefore />
+      <label>Organize Import Paths</label>
+      <scriptCode>
+        <![CDATA[
+from omoospace_houdini import organize_import_paths
+items = kwargs.get("items", None)
+organize_import_paths(items)
 ]]>
       </scriptCode>
     </scriptItem>

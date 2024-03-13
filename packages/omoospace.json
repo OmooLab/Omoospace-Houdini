@@ -10,10 +10,10 @@
       "PYTHONPATH": [
         "$OMOOSPACE_PATH/python",
         {
-          "houdini_python == 'python3.9'": "$OMOOSPACE_PATH/pythonlib.9/Lib/site-packages"
+          "houdini_python == 'python3.9'": "$OMOOSPACE_PATH/pythonlib3.9/Lib/site-packages"
         },
         {
-          "houdini_python == 'python3.10'": "$OMOOSPACE_PATH/pythonlib.10/Lib/site-packages"
+          "houdini_python == 'python3.10'": "$OMOOSPACE_PATH/pythonlib3.10/Lib/site-packages"
         }
       ]
     }

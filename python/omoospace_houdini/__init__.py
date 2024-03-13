@@ -1,7 +1,6 @@
 from .env import (
     on_hip_open,
-    on_hip_save,
-    OmoospaceConfig
+    on_hip_save
 )
 
 from .functions import (

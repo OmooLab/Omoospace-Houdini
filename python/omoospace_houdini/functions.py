@@ -42,8 +42,11 @@ def organize_export_paths(nodes):
         if present:
             for parm_name in present.keys():
                 parm_value = present[parm_name]
-                node.parm(parm_name).set(parm_value)
-                print(f"Set {node_name}.{parm_name} to {parm_value}")
+                try:
+                    node.parm(parm_name).set(parm_value)
+                    print(f"[√] {node_name}.{parm_name}: {parm_value}")
+                except:
+                    print(f"[×] {node_name}.{parm_name}: {parm_value}")
 
 
 class OrganizeExportPaths(QDialog):

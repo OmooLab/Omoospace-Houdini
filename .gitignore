@@ -162,7 +162,7 @@ cython_debug/
 # HDA backup
 HDAs/backup
 
-PythonLib*
+pythonlib*
 
 *.rat
 

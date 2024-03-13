@@ -13,23 +13,141 @@
     "file": ["file"],
     "filemerge::2.0": ["filelist*", "file"],
     "filemerge": ["file"],
+    "alembic": ["fileName"],
+    "mdd": ["file"],
+    "gltf": ["filename"],
     "lidarimport": ["filename"],
     "rawimport": ["file"],
     "tableimport": ["file"],
     "usdimport": ["filepath1"],
+    "attribfrommap": ["filename"],
     "sublayer": ["filepath*"],
     "reference::2.0": ["filepath*"],
     "reference": ["filepath1"],
     "assetreference": ["filepath"],
+    "domelight::2.0": ["xn__inputstexturefile_r3ah"],
+    "mtlximage": ["file"],
+    "mtlxtiledimage": ["file"],
+    "usduvtexture::2.0": ["file"],
+    "usduvtexture": ["file"],
+    "image3d": ["file"],
+    "image3dvolume": ["file"],
+    "lens_bokeh": ["map"],
+    "texture::2.0": ["map"],
+    "texture": ["map"],
+    "displacetexture": ["texture"],
+    "osl_texture": ["map"],
+    "principledshader::2.0": [
+      "basecolor_texture",
+      "ior_texture",
+      "rough_texture",
+      "aniso_texture",
+      "anisodir_texture",
+      "metallic_texture",
+      "reflect_texture",
+      "reflecttint_texture",
+      "coat_texture",
+      "coatrough_texture",
+      "transparency_texture",
+      "transcolor_texture",
+      "transdist_texture",
+      "dispersion_texture",
+      "sss_texture",
+      "sssdist_texture",
+      "ssscolor_texture",
+      "sheen_texture",
+      "sheentint_texture",
+      "ssscolor_texture",
+      "occlusion_texture",
+      "emitcolor_texture",
+      "opaccolor_texture",
+      "baseNormal_texture",
+      "dispTex_texture"
+    ],
+    "kma_physicallens": [
+      "bokeh_map",
+      "curv_map",
+      "tint_map",
+      "fstop_map",
+      "focus_map",
+      "toffset_map"
+    ],
+    "kma_lfilter_gobo": ["map"],
     "kinefx::mocapimport": ["asffile"],
     "kinefx::fbxanimimport": ["fbxfile"],
     "kinefx::fbxcharacterimport": ["fbxfile", "animfbxfile"],
     "kinefx::fbxskinimport": ["fbxfile"],
-    "lab::obj_importer": ["sObjFile"],
-    "lab::osm_import": ["osm_file"],
-    "lab::fbx_archive_import": ["sFBXFile"],
-    "lab::terrain_layer_import::1.1": ["sHeightmap"],
-    "lab::terrain_layer_import": ["sHeightmap"],
+    "labs::obj_importer": ["sObjFile"],
+    "labs::osm_import": ["osm_file"],
+    "labs::fbx_archive_import": ["sFBXFile"],
+    "labs::terrain_layer_import::1.1": ["sHeightmap"],
+    "labs::terrain_layer_import": ["sHeightmap"],
+    "labs::labs_shader::1.0": [
+      "basecolor_texture",
+      "rough_texture",
+      "metallic_texture",
+      "baseNormal_texture",
+      "occlusion_texture",
+      "emitcolor_texture",
+      "opaccolor_texture"
+    ],
+    "labs::labs_shader": [
+      "basecolor_texture",
+      "rough_texture",
+      "metallic_texture",
+      "baseNormal_texture",
+      "occlusion_texture",
+      "emitcolor_texture",
+      "opaccolor_texture"
+    ],
+    "labs::quickmaterial::2.2": [
+      "principledshader_basecolor_texture_*",
+      "principledshader_rough_texture",
+      "principledshader_metallic_texture_*",
+      "principledshader_occlusion_texture_*",
+      "principledshader_opaccolor_texture_*",
+      "principledshader_baseNormal_texture_*",
+      "labspbrshader_basecolor_texture_*",
+      "labspbrshader_rough_texture",
+      "labspbrshader_metallic_texture_*",
+      "labspbrshader_baseNormal_texture_*",
+      "labspbrshader_opaccolor_texture_*",
+      "labspbrshader_emitcolor_texture_*",
+      "labspbrshader_occlusion_texture_*",
+      "matcapshader_basecolor_texture_*"
+    ],
+    "labs::quickmaterial::2.1": [
+      "principledshader_basecolor_texture_*",
+      "principledshader_rough_texture",
+      "principledshader_metallic_texture_*",
+      "principledshader_occlusion_texture_*",
+      "principledshader_opaccolor_texture_*",
+      "principledshader_baseNormal_texture_*",
+      "matcapshader_basecolor_texture_*"
+    ],
+    "labs::quickmaterial::2.0": [
+      "basecolor_texture_*",
+      "rough_texture",
+      "metallic_texture_*",
+      "baseBump_bumpTexture_*",
+      "opaccolor_texture_*",
+      "dispTex_texture_*",
+      "pbr_basecolor_texture_*",
+      "pbr_rough_texture",
+      "pbr_metallic_texture_*",
+      "pbr_baseNormal_texture_*",
+      "pbr_opaccolor_texture_*",
+      "pbr_emitcolor_texture_*",
+      "pbr_occlusion_texture_*",
+      "matcap_basecolor_texture_*"
+    ],
+    "labs::quickmaterial": [
+      "basecolor_texture",
+      "rough_texture",
+      "metallic_texture",
+      "baseBump_bumpTexture",
+      "opaccolor_texture"
+    ],
     "MaNan::OmooImport::1.0": ["file_path"],
     "MaNan::OmooReference::1.0": ["file_path"]
   },
@@ -272,6 +390,33 @@
     "labs::flipbook_textures::1.0": {
       "expdir": "$JOB/Contents/Dynamics",
       "asset": "`$ROUTE`_`$OS`"
+    },
+    "labs::maps_baker::5.0": {
+      "sOutputFile": "$JOB/Contents/Models/`$ROUTE`_`$OS`/Textures/`$ROUTE`_`$OS`_$(CHANNEL)`.chs('udimsuffix')`.png",
+      "sopoutputlow": "$JOB/Contents/Models/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`.fbx",
+      "sopoutputhigh": "$JOB/Contents/Models/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`_High.fbx"
+    },
+    "labs::maps_baker::4.0": {
+      "sOutputFile": "$JOB/Contents/Models/`$ROUTE`_`$OS`/Textures/`$ROUTE`_`$OS`_$(CHANNEL)`.chs('udimsuffix')`.png",
+      "sopoutputlow": "$JOB/Contents/Models/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`.fbx",
+      "sopoutputhigh": "$JOB/Contents/Models/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`_High.fbx"
+    },
+    "labs::maps_baker::3.0": {
+      "sOutputFile": "$JOB/Contents/Models/`$ROUTE`_`$OS`/Textures/`$ROUTE`_`$OS`_$(CHANNEL)`.chs('udimsuffix')`.png"
+    },
+    "labs::maps_baker::2.0": {
+      "sOutputFile": "$JOB/Contents/Models/`$ROUTE`_`$OS`/Textures/`$ROUTE`_`$OS`_$(CHANNEL)`.chs('udimsuffix')`.png"
+    },
+    "labs::maps_baker": {
+      "sOutputFile": "$JOB/Contents/Models/`$ROUTE`_`$OS`/Textures/`$ROUTE`_`$OS`_$(CHANNEL)`.chs('udimsuffix')`.png"
+    },
+    "labs::simple_baker::2.0": {
+      "base_path": "$JOB/Contents/Models/`$ROUTE`_`$OS`/Textures/`$ROUTE`_`$OS`_$(CHANNEL)`.tga",
+      "fbx_path": "$JOB/Contents/Models/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`.fbx"
+    },
+    "labs::simple_baker": {
+      "base_path": "$JOB/Contents/Models/`$ROUTE`_`$OS`/Textures/`$ROUTE`_`$OS`_$(CHANNEL)`.tga",
+      "fbx_path": "$JOB/Contents/Models/`$ROUTE`_`$OS`/`$ROUTE`_`$OS`.fbx"
     },
     "MaNan::OmooExport::1.1": {
       "name": "`$ROUTE`_`$OS`",

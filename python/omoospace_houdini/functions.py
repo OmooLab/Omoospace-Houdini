@@ -222,7 +222,10 @@ def organize_import_paths(nodes):
                     index += 1
 
             else:
-                add_to_dict(node, parm)
+                try:
+                    add_to_dict(node, parm)
+                except:
+                    continue
 
     if len(import_path_dict.keys()) > 0:
         dialog = OrganizeExportPaths(import_path_dict, omoospace)

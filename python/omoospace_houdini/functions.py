@@ -34,19 +34,131 @@ with NODE_CONFIG_PATH.open('r') as f:
     COPY_PARENT_MARKERS = data['copy_parent_markers']
 
 
-def organize_export_paths(nodes):
+def nodes_collection(nodes):
+    collection = []
     for node in nodes:
+        collection.append(node)
+        children = node.allSubChildren(
+            top_down=True,
+            recurse_in_locked_nodes=False
+        )
+        collection.extend(children)
+    collection = [node for node in collection if node.parent().isEditable()]
+    return collection
+
+
+def organize_export_paths(nodes):
+    export_path_dict = {}
+
+    def add_to_dict(node, parm_name, parm_value):
+        # check if node does have that parm
+        try:
+            node.parm(parm_name)
+        except:
+            return
+
+        # except expression parms
+        try:
+            node.parm(parm_name).expressionLanguage()
+            return
+        except:
+            pass
+
+        node_path = node.path()
+        export_path_dict[f"{node_path}.{parm_name}"] = {
+            "node": node,
+            "parm": parm_name,
+            "value": parm_value
+        }
+
+    for node in nodes_collection(nodes):
         node_type = node.type().name()
-        node_name = node.name()
         present = EXPORT_PARMS.get(node_type)
-        if present:
-            for parm_name in present.keys():
-                parm_value = present[parm_name]
+        parm_names: list[str] = present.keys() if present else []
+
+        for parm_name in parm_names:
+            parm_value = present[parm_name]
+            add_to_dict(node, parm_name, parm_value)
+
+    if len(export_path_dict.keys()) > 0:
+        for node_parm in export_path_dict.keys():
+            node = export_path_dict[node_parm]['node']
+            parm_name = export_path_dict[node_parm]['parm']
+
+            export_path_raw = node.parm(parm_name).rawValue()
+            changed_path_raw = export_path_dict[node_parm]['value']
+
+            try:
+                node.parm(parm_name).set(changed_path_raw)
+                print(
+                    f"[√] {node_parm}: {export_path_raw} => {changed_path_raw}")
+            except:
+                print(
+                    f"[×] {node_parm}: {export_path_raw} => {changed_path_raw}")
+
+    else:
+        print("No parms need to change.")
+
+
+def organize_import_paths(nodes):
+    import_path_dict = {}
+
+    def add_to_dict(node, parm_name):
+        # check if node does have that parm
+        try:
+            node.parm(parm_name)
+        except Exception as e:
+            raise e
+
+        # except expression parms
+        try:
+            node.parm(parm_name).expressionLanguage()
+            return
+        except:
+            pass
+
+        node_path = node.path()
+        import_path_eval = node.evalParm(parm_name)
+        import_path_raw = node.parm(parm_name).rawValue()
+
+        if import_path_raw and ("$JOB" not in import_path_raw):
+            import_path_dict[f"{node_path}.{parm_name}"] = {
+                "node": node,
+                "parm": parm_name,
+                "import_path_raw": import_path_raw,
+                "import_path_eval": import_path_eval
+            }
+
+    omoospace = Omoospace(hou.getenv('JOB'))
+
+    for node in nodes_collection(nodes):
+        node_type = node.type().name()
+        parm_names: list[str] = IMPORT_PARMS.get(node_type) or []
+
+        for parm_name in parm_names:
+            # if that parm is a list like filepath1 filepath2 filepath3
+            if parm_name.endswith("*"):
+                index = 1
+                while True:
+                    parm_name = parm_name.removesuffix("*") + str(index)
+                    try:
+                        add_to_dict(node, parm_name)
+                    except:
+                        break
+                    index += 1
+
+            else:
                 try:
-                    node.parm(parm_name).set(parm_value)
-                    print(f"[√] {node_name}.{parm_name}: {parm_value}")
+                    add_to_dict(node, parm_name)
                 except:
-                    print(f"[×] {node_name}.{parm_name}: {parm_value}")
+                    continue
+
+    if len(import_path_dict.keys()) > 0:
+        dialog = OrganizeExportPaths(import_path_dict, omoospace)
+        dialog.setParent(hou.qt.mainWindow(), QtCore.Qt.Window)
+        dialog.show()
+    else:
+        print("No parms need to change.")
 
 
 class OrganizeExportPaths(QDialog):
@@ -166,8 +278,11 @@ class OrganizeExportPaths(QDialog):
                     except:
                         continue
 
-                node.parm(parm).set(changed_path_raw)
-                changed_node_parms.append(node_parm)
+                try:
+                    node.parm(parm).set(changed_path_raw)
+                    changed_node_parms.append(node_parm)
+                except:
+                    continue
 
                 percent = float(index) / float(len(import_path_dict.keys()))
                 operation.updateProgress(percent)
@@ -180,7 +295,7 @@ class OrganizeExportPaths(QDialog):
             else:
                 report_message += f"[×] {self.get_change_str(node_parm)}\n"
 
-        report = hou.ui.displayMessage(
+        hou.ui.displayMessage(
             report_message,
             title="Report"
         )
@@ -188,51 +303,6 @@ class OrganizeExportPaths(QDialog):
         print(report_message)
         os.startfile(omoospace.externaldata_path / 'Collected')
         self.close()
-
-
-def organize_import_paths(nodes):
-    import_path_dict = {}
-    omoospace = Omoospace(hou.getenv('JOB'))
-
-    def add_to_dict(node, parm):
-        import_path_eval = node.evalParm(parm)
-        import_path_raw = node.parm(parm).rawValue()
-
-        if import_path_raw and ("$JOB" not in import_path_raw):
-            import_path_dict[f"{node_name}.{parm}"] = {
-                "node": node,
-                "parm": parm,
-                "import_path_raw": import_path_raw,
-                "import_path_eval": import_path_eval
-            }
-
-    for node in nodes:
-        node_name = node.name()
-        node_type = node.type().name()
-        parms: list[str] = IMPORT_PARMS.get(node_type) or []
-        for parm in parms:
-            if parm.endswith("*"):
-                index = 1
-                while True:
-                    parm_name = parm.removesuffix("*") + str(index)
-                    try:
-                        add_to_dict(node, parm_name)
-                    except:
-                        break
-                    index += 1
-
-            else:
-                try:
-                    add_to_dict(node, parm)
-                except:
-                    continue
-
-    if len(import_path_dict.keys()) > 0:
-        dialog = OrganizeExportPaths(import_path_dict, omoospace)
-        dialog.setParent(hou.qt.mainWindow(), QtCore.Qt.Window)
-        dialog.show()
-    else:
-        print("No parms need to change.")
 
 
 class SaveToNewOmoospace(QDialog):
